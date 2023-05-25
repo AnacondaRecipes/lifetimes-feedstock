@@ -12,16 +12,20 @@ source:
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3.6
-    - autograd >=1.2.0
+    - python
+    # upstream specifies autograd >=1.2.0 but we need at least 1.4.0 to use numpy >=1.20 due to deprecation of numpy.int
+    # https://github.com/HIPS/autograd/issues/565
+    # https://github.com/HIPS/autograd/commit/01eacff7a4f12e6f7aebde7c4cb4c1c2633f217d
+    - autograd >=1.4.0
     - dill >=0.2.6
     - numpy >=1.10.0
     - pandas >=0.24.0
@@ -40,9 +44,15 @@ about:
   home: https://github.com/CamDavidsonPilon/lifetimes
   license: MIT
   license_family: MIT
-  license_file: README.md
+  license_file: LICENSE.txt
   summary: Measure customer lifetime value in Python
-  doc_url: https://lifetimes.readthedocs.io/en/latest/?badge=latest
+  description: |
+    The lifetimes package is a Python library that provides tools for customer 
+    lifetime value (CLV) analysis. CLV is a metric used in marketing and customer 
+    relationship management to estimate the value a customer brings to a business 
+    over their lifetime as a customer.
+  doc_url: https://lifetimes.readthedocs.io/en/latest/
+  dev_url: https://github.com/CamDavidsonPilon/lifetimes
 
 extra:
   recipe-maintainers:
